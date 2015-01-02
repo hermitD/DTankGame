@@ -1,0 +1,586 @@
+1.在开发网络游戏时，首先要建立底层的网络通信类，利用网络通信类连接构建客户服务器之间的TCP/IP连接，
+2.然后在该连接的基础上利用自设定的协议进行客户端登录、进行游戏等操作。
+3.在以上协议的基础上，根据不同的游戏编写不同的游戏逻辑处理类，在该逻辑处理类中实现了对应的游戏逻辑，如实例中的军棋，则实现相互之间的对弈等功能。同时在服务器端还需要和数据库服务器交互，用于读取或保存客户信息（如用户积分、密码、个人资料等数据）。
+
+
+客户端类的划分：
+游戏基本类：负责处理游戏中一些完成基本功能的类，如处理声音类、处理动画图标，图形按钮等类，基本类的特点是被其他类在特定处所调用，并不动生成对象。
+游戏框架类：负责处理游戏中客户端用于显示程序界面和绘制游戏界面以及显示用户信息和广告信息等处理任务。
+游戏通信类：负责处理游戏中客户服务器之间的网络传输细节，从而在编程中不用考虑网络通信细节，达到客户和服务器之间的透明的效果。
+游戏应用程序类：主要负责处理应用程序中各种设置显示对话框、程序主线程处理、程序中基本的运行类框架的管理，以及游戏中图形的处理和显示等任务的处理。
+游戏处理类：主要用于处理游戏简单逻辑、负责解析和处理与服务器端交互的游戏数据，以及在游戏运行中维护游戏中的各种数据，同时维护处理游戏主线程逻辑等功能。
+
+客户端
+身份验证窗口
+
+用户名 	--注册用户
+密码	--记住密码
+服务器
+	登陆, 退出
+
+
+房间页面
+	-- 功能区 用户信息区，配置,创建房间,帮助,退出 so on
+
+聊天区
+	-- 格式串 来代表聊天含义
+
+
+
+进入房间？ 开始游戏？
+
+游戏进行中... 进行一系列本地或者服务端判断以确保游戏的正常进行
+
+
+游戏过程 判断是否结束
+
+
+
+
+
+
+服务器类的划分：
+游戏通信类：负责处理游戏中客户服务器之间的网络传输细节，从而在编程中不用考虑网络通信细节，达到客户和服务器之间透明传输的效果。
+游戏协议类：负责处理游戏中客户服务器之间交互所传递的数据，并且对该数据格式进行打包和解包，同时根据该包中所包含的指令串进行相应的操作。
+游戏逻辑类：负责处理游戏逻辑，如军棋游戏中用于维护军棋逻辑，判断下棋，得分等处理类。
+用户管理类：用于管理用户资料，在用户登录后通过数据库验证用户名和密码，通过验证后从数据库读取用户的详细资料。同时在程序中维护用户数据，在用户游戏结束和退出游戏时将用户数据保存到数据库中。
+服务器框架类：用于管理游戏大厅的数据，包括一些数据的列表。
+数据库类：用于网络游戏的服务器端在处理大量的客户资料时，使用数据库进行大量数据的存储和查询所调用的类方法。
+
+
+P152
+用户案例的划分原则
+用户案例的分类
+操作包
+显示包
+设置包
+
+
+
+
+
+--step 1 no sql
+--step 2 add sql
+
+角色数据库
+游戏者 GM 
+
+id name password reg_time rank is_gm 
+得分数据库
+
+id date name result
+
+
+
+
+
+
+
+游戏协议的分类。
+游戏协议打包/解包过程	 弃疗
+
+const int OK=0;
+const int FAILED=1;
+const int YES=2;
+const int NO=3;
+const int YOUR_TURN=4;
+const int YOU_WIN=5;
+const int YOU_LOSE=6;
+const int DO_YOU_AGREE_RESTART=7;
+const int GAME_OVER=8;
+const int I_KNOW=9;
+const int I_WANT_TO_RESTART=10;
+const int I_WANT_TO_EXIT=11;
+const int AGREE=12;
+const int DISAGREE=13;
+
+const int QUERY_USERS=100;
+const int ENTER_ROOM=101;
+const int EXIT_ROOM=102;
+const int USER_ACTION=103;
+const int REGISTER_USER=104;
+const int QUERY_BOARD=105;
+const int LOGOUT=106;
+const int EXIT_GAME=107;
+
+
+
+const int MOVE_TANK = 200;
+
+
+
+
+
+other thinking 
+
+anti plugins ~
+like that dll  mem search~~
+
+
+P 217
+
+数据绑定的思想。 draw开启一个线程或者定时器,专门来画, 而且画的代码是不变的。 刷一下全图?
+make a choice 
+
+
+
+
+
+//GameFrame ~~
+frame初步完成,剩下的是TankGame部分逻辑 参考Teach代码和一个游戏的实例.
+
+可能会存在一个问题, 关于画坦克到底在draw那里还是...
+UIGraphic只是实现了一个基本驱动, 然后再在坦克里面搞另一个驱动,这里牵扯到一个DC的问题。 待议
+
+这个搞好了要参考之前的逻辑问题
+
+--如果两个drawtank和uigraphic都用的话会覆盖一个
+干脆就取消掉一个
+尝试将DrawGame移植到uigraphic里还是失败
+最终解决取消uigraphic里的行为。 好歹还能利用其中的其他接口 T__T ~
+
+
+
+
+
+
+
+就是一个NB数组
+
+这里要考虑图像的大小问题。 可能要整体缩放多少。或者用图像处理软件处理一下。
+
+对于数据问题 这里涉及数据较小估计可以达到发送整个地图的数组 而确保流畅 eg 40*40*4byte
+
+放弃 涉及数据还是太大不符合一般游戏的逻辑, 只是在操作的时候进行发包, 也就是发生改变的时候进行发包。然后在服务端处理核心数据结构
+
+
+
+
+
+typedef struct _OBJECT 
+	{
+	 /*
+        *        1       23           4                56          78
+        *  0x    0       00           0                00          00
+        *     对象类型 对象ID 无敌/移动/碰撞体积 运动方向/血值 显示控制
+        */
+        unsigned int  Shape     :8; // 显示类型(256)
+        unsigned int  Life      :6; // 生命值(64)
+        unsigned int  Direction :2; // 运动方向(4)
+        unsigned int  Collide   :2; // 碰撞体积(4)
+        unsigned int  IsMove    :1; // 是否能移动(2)
+        unsigned int  IsGod	    :1; // 是否为无敌(2)
+        unsigned int  ID        :8; // 对象ID(256)
+        unsigned int  Type      :4; // 对象类型(15)
+
+        WORD          wColor;       // 对象颜色
+        COORD         stcPos;       // 对象所在位置中心点的坐标
+        COORD         stcPath[50];  // 需要移动的路径坐标集
+    }Object,*pObject;
+	
+
+
+
+感觉这种方式进行一系列的操作太鸡肋了,控制台耍的还行,进行一系列操作比如碰撞检测这就精度太低或者难度太大了
+二、矩形检测
+而这仅需要4次比较即可得出，速度很快。但为了判断整个场景中的物体，必须取第一个物体，迭代其他所有物体进行判断，再取第二个物体，迭代除第一第二个物体外的所有物体进行判断，以此类推。总计要进行（n-1）！次矩形判断才能准确得出场景中所有的碰撞可能。
+
+这里存的所有数据暂定为所有的vector~~
+然后依靠所有vector来画图   碰撞等也是依靠vector携带的信息在服务端判断
+具体细节待议。
+最外围墙硬性给设定住。或者外面初始化一圈墙
+
+对于子弹的移动。。子弹诞生之后开一个线程 多久移动多少 来处理这个子弹的 数据的改变。
+或者利用现有的30帧 来画，实现类似的数据更新操作,那么就是在update里整个static来计数
+或者 直接开一个线程 隔一定的时间来处理所有存在的子弹信息
+make a choice
+界面大体也就这些东西了。其他想到再改
+
+     当地图中的物体不能严格按照某个块大小的整数倍来绘制时，那么就需要另想其他的方法。这种方法适用于地图中的物体近似为矩形或者虽然不是矩形，但是碰撞精度要求不高的情况下。每个物体记录一个能够将自己框住的最小矩形的左上角坐标和矩形长宽。碰撞退化为判断矩形与矩形之间是否重叠，
+对于开始游戏,一开始可以画别的,比如动态图神马的,设个标志位,等游戏启动之后再开始画坦克游戏
+
+
+
+
+网游框架参考chess game  10-20 night =.=
+
+最起码的实现，应该是实现一个类似chess game 开始,但是能够实现两个坦克在一个地图里互相交互。
+
+暂时处理地图所有信息保存两个坦克的位置 
+然后定时所有客户端接受一遍信息或者在用户做出动作后立即响应
+这里有个问题是如果两个用户进入了一个相同的房间后,就将其数据结构放到相应的地方。
+
+
+chess game 笔记
+
+chessgameServer
+主函数就是简单的调用
+CGameServer GameServer(port);
+GameServer.IsOK();
+GameServer.TurnOn();
+跟入后可以看到
+class CGameServer: protected CTCPServer   -- class CTCPServer: public CServer  不过这以下基本都是虚函数
+主要入手点应该为CTCPServer
+	--class CServer:public CNetAgent	 class CNetAgent
+可以看到CGameServer::CGameServer(unsigned short nPortNum):CTCPServer(nPortNum)
+{
+	SetReceptionist(g_RecepFunc);	//设置相应用户请求的函数
+}
+	--	bool CTCPServer::SetReceptionist(bool (*pFunc)(SOCKET sct))
+		{
+			g_pReceptionist=pFunc;
+			return(true);
+		}
+可见大部分工作还是在CTCPServer中实现的 这里只是有处理相应包的程序
+
+CTCPServer::CTCPServer(unsigned short nPortNum)
+{
+	m_bInitSuccess=false;
+	WSADATA data;
+	if(WSAStartup(MAKEWORD(2,2),&data)!=0)
+		return;
+	if(!Initialize(nPortNum))			-- 其中有个侦听
+									....
+									//建立套接字
+									if((m_sctListenSocket=socket(AF_INET,SOCK_STREAM,IPPROTO_IP))==INVALID_SOCKET)
+										return(false);
+									//绑定套接字
+									if(bind(m_sctListenSocket,(sockaddr*)&m_ServerAddress,sizeof(m_ServerAddress))==SOCKET_ERROR)
+										return(false);
+									//侦听
+									listen(m_sctListenSocket,SOMAXCONN);
+									return(true);
+		return;
+	DWORD dwThreadID;
+	
+	//建立接收客户端连接的线程
+	if(CreateThread(NULL,0,g_AcceptClient,(LPVOID)m_sctListenSocket,0,&dwThreadID)==NULL)
+		return;
+	m_bInitSuccess=true;
+	return;
+}
+
+
+然后就在 g_AcceptClient 这个回调中 如果有接受且合法那么
+m_sctListenSocket= 之上的(lpParam)m_sctListenSocket
+			
+			*pConnectSocket=accept(sctListenSocket,(sockaddr*)&ClientAddress,&iAddressSize);
+			setsockopt(*pConnectSocket,SOL_SOCKET,SO_REUSEADDR,(char *)&bReuse,sizeof(bReuse));
+
+
+			CreateThread(NULL,0,g_ProcessClientReques	
+t,(LPVOID)*pConnectSocket,0,&dwThreadID);
+		--多个连接是怎么实现的？？？？			这里一个客户端对应一个线程 然后共同更新一个数据结构 然后统一发送到客户端
+g_ProcessClientRequest=(SOCKET)lpParam;
+
+SOCKET sctClientSocket
+while(1)用g_pReceptionist来处理请求 也就是
+g_RecepFunc
+
+
+
+
+Server具体功能分析
+REGISTER_USER  注册用户
+	UserName[length]='\0';
+	user.SetID(UserID);			//unsigned int UserID=(unsigned int)sct;
+	user.SetName(UserName);		
+	user.SetIP("Unknown");
+	result=UserManager.AddUser(user)?OK:FAILED;
+
+ENTER_ROOM	进入游戏室
+result=GameManager.AddUser(UserID,RoomNum)&&UserManager.SetRoomNum(UserID,RoomNum)?OK:FAILED;
+
+
+USER_ACTION  用户作出动作
+if( !GameManager.IsReady(UserID) ||
+	GameManager.GetNextPlayerID(UserID)!=UserID)
+	{
+		gameresult.GameEnd=false;
+		gameresult.NextPlayerID=GameManager.GetNextPlayerID(UserID);
+		result=FAILED;
+	}
+	else
+	{
+		action.UserID=UserID;
+		gameresult=GameManager.UserPlay(action);
+		result=OK;
+	}
+	send(sct,(char*)&result,4,0);
+	length=225;
+	send(sct,(char*)&length,4,0);
+	send(sct,GameManager.GetGameInfo(UserID),length,0);	
+	//这里有个数据结构，定时所有客户端接受一遍信息或者在用户做出动作后立即响应
+	if(gameresult.GameEnd)
+	GameManager.RestartGame(UserID);
+	break;
+
+/
+
+client
+整体思路好像是发包是分着的。 也就是如果第一个包接受的是命令只是命令那么就只发一个，else会发送一系列包
+
+至于具体的协议,就得根据C/S两端的信息进行相应的分析了。→_→ 搬过来改改 seems not so hard =。=
+
+eg
+bool CGameClient::Register( string& strUserName )		//注册用户
+{
+	if(!m_bConnected)
+		return(false);
+	int result;
+	int OpNum = REGISTER_USER;
+	int length = strUserName.length();
+	m_bNetFree=false;
+	Send( &OpNum, 4 );
+	Send( &length, 4 );
+	Send( strUserName.c_str(), length );
+	Receive( &result, 4 );
+	m_bNetFree=true;
+
+	return( result == OK );
+
+}
+程序主流程
+首先OnEnter()
+调用成员变量连接服务器。CGameClient m_client;
+
+class CGameClient:public CTCPClient
+{}
+
+游戏的相关逻辑放在CGameClient调用封装在CTCPClient的网络相关函数
+
+整体逻辑就是界面所有监听调用CGameClient的相关API
+
+
+CTankGameRoom
+
+	char board[15][15]; //0x00 for empty;0x01 for black; 0x02 for white
+
+	//board[0][0]~[3] player1pos;  *10 real pos  
+ 	//board[1][0]~[3] player2pos; 
+
+
+IsReady//初始化信息
+
+
+send char* 
+
+	if(!m_bConnected)
+		return(false);
+	int length;
+	char board[225];
+	int OpNum=QUERY_BOARD;
+	m_bNetFree=false;
+	m_pDGameUI->m_pGameUINet->Send(&OpNum,4);
+	m_pDGameUI->m_pGameUINet->Receive(&length,4);
+	m_pDGameUI->m_pGameUINet->Receive(board,length);
+	m_bNetFree=true;
+	
+
+		case MOVE_TANK:
+			if(recv(sct,(char*)&tankdirec,4,0)==SOCKET_ERROR)
+				break;
+			result=(tankdirec>=0&&tankdirec<=3)?OK:FAILED;
+			send(sct,(char*)&result,4,0);
+			break;
+
+		case GET_TANK_POS:
+			length=8;
+			char *temp1Pose=((CTankGameRoom *)(GameManager.FindRoom(UserID)))->player1Pos;
+			char *temp2Pose=((CTankGameRoom *)(GameManager.FindRoom(UserID)))->player2Pos;
+			send(sct,(char*)&length,4,0);
+			send(sct,(char*)&temp1Pose,length,0);
+			send(sct,(char*)&temp2Pose,length,0);
+
+			result = OK;
+			send(sct,(char*)&result,4,0);
+			break;
+
+
+
+//200,100,264,164
+
+
+//900,100,964,164
+
+
+
+这里只是大略的做好了通信
+
+但是还要有开始游戏这个过程。
+//通过大量的isgamestart来实现逻辑
+
+
+//maybe add a chat func?
+
+
+thinking
+
+暂定方向 修改和完整理解server client交互
+
+然后加入协议类似的东西 <sss>... sadas<\sss>
+<Body>	<CmdContent>FromUserId=Webmaster&ToUserId=chicken&Content=Hi,I need help;</CmdContent></Body>
+
+把这个东西加上估计就稍显不那么恶心
+
+或者直接搞一个结构体来用于发送。 通信双方使用相同的结构体
+
+
+暂时想法。 将已完成的暂时封成一个双人游戏。单人游戏用新的数据格式来实现。
+
+MAPDATA a
+,(char *)  ,
+
+typedef struct _pos
+{
+	int left;
+	int top;
+	int right;
+	int bottom;
+}pos
+
+
+typedef struct _mapData
+{
+	int bulletNum;
+	pos bullet[50];
+
+	
+}mapData
+
+数据能正常处理之后就是堆逻辑的问题了。
+
+
+
+
+
+
+
+typedef	 struct {
+
+//	StuDrawObj[100] m_vBullet.
+
+
+	int a;
+
+	int p;
+
+
+//	char str[100];
+
+
+	CString
+
+	vector<StuDrawObj> m_vBullet;
+	vector<StuDrawObj> m_vGrass;
+	vector<StuDrawObj> m_vHardWall;
+	vector<StuDrawObj> m_vSoftWall;
+	vector<StuDrawObj> m_vTank;
+
+
+}MAPDATA;
+？？？？
+其中的数据存储究竟是怎样的。
+
+struct StuDrawObj
+{
+    int       nId;
+    CDrawObj *pDrawObj;
+};
+
+
+class CDrawObj
+{
+public:
+    CDrawObj(void);
+    ~CDrawObj(void);
+
+    virtual void Draw() = 0;
+    virtual void Move(CRect ptMove,int nDir){};
+    CPoint GetPt();
+
+public:
+    CRect  m_rcXy;
+    CRect  m_oldrcXy;
+
+    BOOL   m_isMove;
+    int    m_nMove;
+    float  m_f10;
+
+	//除static成员外，每个派生类都保存了基类的一个副本，包括派生类
+	//不能访问的 private成员；static在整个继承层中只有一个，其访问属性跟其他成员一样。
+
+    static CDC *m_pscMem;
+    static CDC *m_pscView;
+
+    static CDC *m_pscBullet;
+    static CDC *m_pscGrass;
+    static CDC *m_pscHardWall;
+    static CDC *m_pscSoftWall;
+	static CDC *m_pscTank;
+
+    static CDC *m_pscBoom;
+};
+
+
+
+
+
+
+DGameFrame Things~~~ 
+主体思想是构建一个与具体游戏无关的实体，且如果要实现一个新游戏的话只需要重载已有的虚函数接口就行了,没有必要去通过思考系统到底是怎么做的。实现游戏逻辑的跨平台，只要是在不同平台实现这些类似的接口那么就可以简单的进行这个游戏的移植了,= =不吹了。
+
+
+DGameDefines.h
+
+DGameFrame.cpp
+DGameFrame.h
+DGameFrameDlg.cpp	--> 这里生成DGameMain实例其中包含DGameUI DTheGame 
+					通过在这里接管PreTranslateMessage这里将函数封装一下使得 消息响应路由到自己的m_pDGameMain处理函数中然后其再次路由m_pDTheGame
+					从而实现从DTheGame派生出来的类只要简单的重载就可以实现窗口消息的监听
+
+					OnTimer 实现了 对于GameUi的初始化还有路由到m_pDGameMain-->m_pDTheGame
+DGameFrameDlg.h
+
+DTheGame.cpp
+DTheGame.h
+
+DGameMain.cpp
+DGameMain.h
+
+DGameUI.h
+DGameUI.cpp(include)
+	--DGameUIGraphic.cpp
+	--DGameUIGraphic.h
+	--DGameUISound.cpp
+	--DGameUISound.h
+
+
+
+
+
+
+
+GamePlay自己的类继承自GameTest填充其中接口则会自动调用怎么实现的？类似于ＭＦＣ中创建一个对象会被工程自动调用么？
+很简单么。就直接在主框架里调用GamePlay实现都用GamePlay的方法然后在调用的时候将基类实例化成需要的类就好了嘛~
+
+
+LittleFrameApp --> WinApp   	对比一般程序 Test
+InitInstance()
+
+LittleFrameDlg --> CDialog		TestDialog      
+PreTranslateMessage(MSG* pMsg) 这个封装来调用MainScreen 的方法 从而达到用子类继承对象 其他不用修改的结果
+	--class CWMCombineFunc;
+	--class CMainScreen;
+	--class CGamePlay;
+
+MainScreen   
+	--class WMCombineFunc;
+	--class GamePlay;
+ 
+WMCombineFunc
+	--WMSound
+	--WMGraphic
+
+WMSound
+WMGraphic

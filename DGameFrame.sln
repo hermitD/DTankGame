@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DGameFrame", "DGameFrame\DGameFrame.vcxproj", "{FEDE2063-DA96-40F8-B1EB-0AAE298A9FF9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DGameFrameServer", "DGameFrameServer\DGameFrameServer.vcxproj", "{BBBD0D1C-9BAE-4103-A69A-DCC932CBF635}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FEDE2063-DA96-40F8-B1EB-0AAE298A9FF9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FEDE2063-DA96-40F8-B1EB-0AAE298A9FF9}.Debug|Win32.Build.0 = Debug|Win32
+		{FEDE2063-DA96-40F8-B1EB-0AAE298A9FF9}.Release|Win32.ActiveCfg = Release|Win32
+		{FEDE2063-DA96-40F8-B1EB-0AAE298A9FF9}.Release|Win32.Build.0 = Release|Win32
+		{BBBD0D1C-9BAE-4103-A69A-DCC932CBF635}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BBBD0D1C-9BAE-4103-A69A-DCC932CBF635}.Debug|Win32.Build.0 = Debug|Win32
+		{BBBD0D1C-9BAE-4103-A69A-DCC932CBF635}.Release|Win32.ActiveCfg = Release|Win32
+		{BBBD0D1C-9BAE-4103-A69A-DCC932CBF635}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

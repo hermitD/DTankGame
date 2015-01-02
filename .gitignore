@@ -1,0 +1,7 @@
+DGameFrame/Debug/
+Debug/
+Release/  
+ipch/
+
+*.sdf
+*.opensdf
